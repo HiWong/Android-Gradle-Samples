@@ -1,3 +1,6 @@
 [submodule "volley"]
 	path = volley
 	url = git@github.com:mcxiaoke/android-volley.git
+[submodule "awesome-android-person"]
+	path = awesome-android-person
+	url = git@github.com:yeungeek/awesome-android-person.git
