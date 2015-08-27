@@ -4,9 +4,12 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 /**
@@ -67,7 +70,7 @@ public class RxJavaBaseTest extends TestCase {
     }
 
     @Test
-    public void testOperator() {
+    public void testOperatorSimple() {
         Observable.just("Hello, world").map(new Func1<String, Object>() {
             @Override
             public Object call(String s) {
@@ -75,7 +78,7 @@ public class RxJavaBaseTest extends TestCase {
             }
         }).subscribe(s -> System.out.println(s));
 
-        Observable.just("Hello world").map(s -> s+" - Lambda").subscribe(s -> System.out.println(s));
+        Observable.just("Hello world").map(s -> s + " - Lambda").subscribe(s -> System.out.println(s));
 
         Observable.just("Hello world").map(new Func1<String, Integer>() {
             @Override
@@ -84,6 +87,43 @@ public class RxJavaBaseTest extends TestCase {
             }
         }).subscribe(s -> System.out.println(Integer.toString(s)));
 
-        Observable.just("Hello world").map(s -> s.hashCode()).map(i->Integer.toHexString(i).toUpperCase()).subscribe(s -> System.out.println(s));
+        Observable.just("Hello world").map(s -> s.hashCode()).map(i -> Integer.toHexString(i).toUpperCase()).subscribe(s -> System.out.println(s));
+    }
+
+    @Test
+    public void testOperator() {
+        Observable.from(Arrays.asList("url1", "url2", "url3")).subscribe(s -> System.out.println(s));
+        //flatMap
+    }
+
+    @Test
+    public void testPowerful() {
+        Observable.just("Hello,world!")
+                .map(s -> funcThrow0(s))
+                .subscribe(new Subscriber<Func0<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        System.out.println("Completed!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("Ouch!");
+                    }
+
+                    @Override
+                    public void onNext(Func0<String> stringFunc0) {
+                        System.out.println(stringFunc0);
+                    }
+                });
+    }
+
+    <R> Func0<R> funcThrow0(R r) {
+        return new Func0<R>() {
+            @Override
+            public R call() {
+                throw new TestException();
+            }
+        };
     }
 }
