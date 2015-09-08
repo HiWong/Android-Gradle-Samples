@@ -7,10 +7,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 import static org.junit.Assert.assertEquals;
@@ -106,4 +109,73 @@ public class ObservableTests {
     }
 
 
+    @Test
+    public void fromArityArgs3() {
+        Observable<String> items = Observable.just("one", "two", "three");
+
+        assertEquals(new Integer(3), items.count().toBlocking().single());
+        assertEquals("two", items.skip(1).take(1).toBlocking().single());
+        assertEquals("three", items.takeLast(1).toBlocking().single());
+    }
+
+    @Test
+    public void fromArityArgs1() {
+        Observable<String> items = Observable.just("one");
+
+        assertEquals(new Integer(1), items.count().toBlocking().single());
+        assertEquals("one", items.takeLast(1).toBlocking().single());
+    }
+
+    @Test
+    public void testCollectToList() {
+        Observable<List<Integer>> observale = Observable.just(1, 2, 3).collect(new Func0<List<Integer>>() {
+            @Override
+            public List<Integer> call() {
+                return new ArrayList<Integer>();
+            }
+        }, new Action2<List<Integer>, Integer>() {
+            @Override
+            public void call(List<Integer> integers, Integer integer) {
+                integers.add(integer);
+            }
+        });
+
+        List<Integer> list = observale.toBlocking().last();
+
+        assertEquals(3, list.size());
+        assertEquals(1, list.get(0).intValue());
+        assertEquals(2, list.get(1).intValue());
+        assertEquals(3, list.get(2).intValue());
+
+        // test multiple subscribe
+        List<Integer> list2 = observale.toBlocking().last();
+
+        assertEquals(3, list2.size());
+        assertEquals(1, list2.get(0).intValue());
+        assertEquals(2, list2.get(1).intValue());
+        assertEquals(3, list2.get(2).intValue());
+    }
+
+
+    @Test
+    public void testCollectToString() {
+        String value = Observable.just(1, 2, 3).collect(new Func0<StringBuilder>() {
+            @Override
+            public StringBuilder call() {
+                return new StringBuilder();
+            }
+
+        }, new Action2<StringBuilder, Integer>() {
+
+            @Override
+            public void call(StringBuilder sb, Integer v) {
+                if (sb.length() > 0) {
+                    sb.append("-");
+                }
+                sb.append(v);
+            }
+        }).toBlocking().last().toString();
+
+        assertEquals("1-2-3", value);
+    }
 }
