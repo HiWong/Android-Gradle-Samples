@@ -8,7 +8,7 @@
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingLeft="@dimen/activity_horizontal_margin">
 
-    <TextView
+    <Button
         android:id="@+id/scheduler_example"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
