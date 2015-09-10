@@ -156,7 +156,6 @@ public class ObservableTests {
         assertEquals(3, list2.get(2).intValue());
     }
 
-
     @Test
     public void testCollectToString() {
         String value = Observable.just(1, 2, 3).collect(new Func0<StringBuilder>() {

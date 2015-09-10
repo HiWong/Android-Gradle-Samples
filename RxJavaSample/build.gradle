@@ -12,7 +12,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'me.tatarka:gradle-retrolambda:3.2.2'
 
-        classpath 'com.jakeout:gradle-inspector:+'
+//        classpath 'com.jakeout:gradle-inspector:+'
     }
 }
 
@@ -21,5 +21,5 @@ allprojects {
         jcenter()
     }
 
-    apply plugin: 'com.jakeout.gradle-inspector'
+//    apply plugin: 'com.jakeout.gradle-inspector'
 }
