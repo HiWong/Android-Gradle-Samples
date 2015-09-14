@@ -28,6 +28,7 @@ public class MainFragment extends BaseFragment{
                 .commit();
     }
 
+
     @Bind(R.id.demo_rx_android)
     Button demoRxAndroid;
 }
