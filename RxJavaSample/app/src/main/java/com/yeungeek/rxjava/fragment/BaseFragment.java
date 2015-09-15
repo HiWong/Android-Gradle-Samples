@@ -7,7 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.RxLifecycle;
+
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 /**
  * Created by yeungeek on 2015/9/10.
@@ -21,5 +26,10 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
+    public final <T> Observable.Transformer<T, T> bindToLifecycle() {
+        return RxLifecycle.bindFragment(this.lifecycleSubject);
+    }
+
+    protected final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
     protected abstract int getLayoutId();
 }

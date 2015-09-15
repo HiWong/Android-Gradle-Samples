@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="msg_demo_concurrency_schedulers">This is a demo of how long running operations can be offloaded to a background thread. After the operation is done, we resume back on the main thread. All using RxJava! \n\n To really see this shine. Hit the button multiple times and see how the button click which is a ui operation is never blocked because the long operation only runs in the background</string>
 </resources>
