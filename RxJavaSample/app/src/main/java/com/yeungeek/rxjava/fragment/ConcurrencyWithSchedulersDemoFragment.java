@@ -50,6 +50,7 @@ public class ConcurrencyWithSchedulersDemoFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver());
+
     }
 
     @Override
@@ -65,7 +66,7 @@ public class ConcurrencyWithSchedulersDemoFragment extends BaseFragment {
             @Override
             public Boolean call(Boolean aBoolean) {
                 log("Within Observable");
-                doSomeLongOperation_thatBlocksCurrentThread();
+                doSomeLongOperationThatBlocksCurrentThread();
                 return aBoolean;
             }
         });
@@ -96,7 +97,7 @@ public class ConcurrencyWithSchedulersDemoFragment extends BaseFragment {
     // -----------------------------------------------------------------------------------
     // Method that help wiring up the example (irrelevant to RxJava)
 
-    private void doSomeLongOperation_thatBlocksCurrentThread() {
+    private void doSomeLongOperationThatBlocksCurrentThread() {
         log("performing long operation");
 
         try {
@@ -106,49 +107,8 @@ public class ConcurrencyWithSchedulersDemoFragment extends BaseFragment {
         }
     }
 
-    private void setupLogger() {
-        logs = new ArrayList<>();
-        adapter = new LogAdapter(getActivity(), new ArrayList<>());
-        logsList.setAdapter(adapter);
-    }
-
-    private void log(String logMsg) {
-        if (isCurrentlyOnMainThread()) {
-            logs.add(0, logMsg + " (main thread) ");
-            adapter.clear();
-            adapter.addAll(logs);
-        } else {
-            logs.add(0, logMsg + " (NOT main thread) ");
-
-            // You can only do below stuff on main thread.
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.clear();
-                    adapter.addAll(logs);
-                }
-            });
-        }
-    }
-
-    private boolean isCurrentlyOnMainThread() {
-        return Looper.myLooper() == Looper.getMainLooper();
-    }
-
-    private class LogAdapter
-            extends ArrayAdapter<String> {
-
-        public LogAdapter(Context context, List<String> logs) {
-            super(context, R.layout.layout_log, R.id.item_log, logs);
-        }
-    }
-
-    @Bind(R.id.list_threading_log)
-    ListView logsList;
     @Bind(R.id.progress_operation_running)
     ProgressBar progress;
 
-    private LogAdapter adapter;
-    private List<String> logs;
     private Subscription subscription;
 }

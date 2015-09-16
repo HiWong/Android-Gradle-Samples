@@ -27,6 +27,11 @@ public class MainFragment extends BaseFragment {
         startFragment(new ConcurrencyWithSchedulersDemoFragment(), ConcurrencyWithSchedulersDemoFragment.class.toString());
     }
 
+    @OnClick(R.id.demo_buffer)
+    public void demoBuffer() {
+        startFragment(new BufferDemoFragment(), BufferDemoFragment.class.toString());
+    }
+
     private void startFragment(final Fragment fragment, final String classString) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
