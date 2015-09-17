@@ -32,6 +32,11 @@ public class MainFragment extends BaseFragment {
         startFragment(new BufferDemoFragment(), BufferDemoFragment.class.toString());
     }
 
+    @OnClick(R.id.demo_debounce)
+    public void demoDebounce() {
+        startFragment(new DebounceSearchEmitterFragment(), DebounceSearchEmitterFragment.class.toString());
+    }
+
     private void startFragment(final Fragment fragment, final String classString) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()

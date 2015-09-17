@@ -29,5 +29,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_demo_buffer"/>
+
+        <Button
+            android:id="@+id/demo_debounce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_demo_debounce"/>
     </LinearLayout>
 </ScrollView>
