@@ -18,7 +18,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -96,7 +98,9 @@ public class RetrofitFragment extends BaseFragment {
         OkHttpClient client = new OkHttpClient();
 
 
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://api.github.com/");
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
         final String githubToken = getResources().getString(R.string.github_oauth_token);
 
