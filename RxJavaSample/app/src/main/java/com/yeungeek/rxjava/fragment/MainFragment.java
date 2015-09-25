@@ -37,6 +37,11 @@ public class MainFragment extends BaseFragment {
         startFragment(new DebounceSearchEmitterFragment(), DebounceSearchEmitterFragment.class.toString());
     }
 
+    @OnClick(R.id.demo_retrofit)
+    public void demoRetrofit() {
+        startFragment(new RetrofitFragment(), RetrofitFragment.class.toString());
+    }
+
     private void startFragment(final Fragment fragment, final String classString) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
