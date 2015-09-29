@@ -2,6 +2,7 @@ package com.yeungeek.rxjava.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.widget.EditText;
 
 import com.squareup.okhttp.Interceptor;
@@ -11,6 +12,7 @@ import com.squareup.okhttp.Response;
 import com.yeungeek.rxjava.R;
 import com.yeungeek.rxjava.retrofit.Contributor;
 import com.yeungeek.rxjava.retrofit.GithubApi;
+import com.yeungeek.rxjava.retrofit.User;
 import com.yeungeek.rxjava.util.RxUtils;
 
 import java.io.IOException;
@@ -21,8 +23,12 @@ import butterknife.OnClick;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -78,6 +84,70 @@ public class RetrofitFragment extends BaseFragment {
                                     c.contributions,
                                     repo.getText().toString());
                         }
+                    }
+                }));
+    }
+
+    @OnClick(R.id.btn_demo_retrofit_contributors_with_user_info)
+    public void onCntributorsWithUserInfo() {
+        adapter.clear();
+
+        Timber.d("onListUserName");
+
+        subscription.add(api.contributors(username.getText().toString(), repo.getText().toString())
+                .flatMap(s -> Observable.from(s))
+                .flatMap(new Func1<Contributor, Observable<Pair<User, Contributor>>>() {
+                    @Override
+                    public Observable<Pair<User, Contributor>> call(Contributor contributor) {
+                        Observable<User> userObservable = api.user(contributor.login)
+                                .filter(new Func1<User, Boolean>() {
+                                    @Override
+                                    public Boolean call(User user) {
+                                        return !TextUtils.isEmpty(user.email) && !TextUtils.isEmpty(user.name);
+                                    }
+                                });
+
+                        return Observable.zip(userObservable,
+                                Observable.just(contributor), new Func2<User, Contributor, Pair<User, Contributor>>() {
+                                    @Override
+                                    public Pair<User, Contributor> call(User user, Contributor contributor) {
+                                        return new Pair<User, Contributor>(user, contributor);
+                                    }
+                                });
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Pair<User, Contributor>>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("Retrofit call 2 completed ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e,
+                                "error while getting the list of contributors along with full names");
+                    }
+
+                    @Override
+                    public void onNext(Pair<User, Contributor> userContributorPair) {
+                        User user = userContributorPair.first;
+                        Contributor contributor = userContributorPair.second;
+
+                        adapter.add(format("%s(%s) has made %d contributions to %s",
+                                user.name,
+                                user.email,
+                                contributor.contributions,
+                                repo.getText().toString()));
+
+                        adapter.notifyDataSetChanged();
+
+                        Timber.d("%s(%s) has made %d contributions to %s",
+                                user.name,
+                                user.email,
+                                contributor.contributions,
+                                repo.getText().toString());
                     }
                 }));
     }
