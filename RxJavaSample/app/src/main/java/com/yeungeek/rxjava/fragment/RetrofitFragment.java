@@ -94,7 +94,7 @@ public class RetrofitFragment extends BaseFragment {
 
         Timber.d("onListUserName");
 
-        subscription.add(api.contributors(username.getText().toString(), repo.getText().toString())
+        subscription.add(api.contributors(cUsername.getText().toString(), cRepo.getText().toString())
                 .flatMap(s -> Observable.from(s))
                 .flatMap(new Func1<Contributor, Observable<Pair<User, Contributor>>>() {
                     @Override
@@ -139,7 +139,7 @@ public class RetrofitFragment extends BaseFragment {
                                 user.name,
                                 user.email,
                                 contributor.contributions,
-                                repo.getText().toString()));
+                                cRepo.getText().toString()));
 
                         adapter.notifyDataSetChanged();
 
@@ -147,7 +147,7 @@ public class RetrofitFragment extends BaseFragment {
                                 user.name,
                                 user.email,
                                 contributor.contributions,
-                                repo.getText().toString());
+                                cRepo.getText().toString());
                     }
                 }));
     }
@@ -198,6 +198,11 @@ public class RetrofitFragment extends BaseFragment {
     EditText username;
     @Bind(R.id.demo_retrofit_contributors_repository)
     EditText repo;
+    @Bind(R.id.demo_retrofit_contributors_with_user_info_username)
+    EditText cUsername;
+    @Bind(R.id.demo_retrofit_contributors_with_user_info_repository)
+    EditText cRepo;
+
 //    @Bind(R.id.log_list)
 //    ListView resultList;
 
