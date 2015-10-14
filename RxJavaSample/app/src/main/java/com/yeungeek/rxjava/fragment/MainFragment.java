@@ -42,6 +42,12 @@ public class MainFragment extends BaseFragment {
         startFragment(new RetrofitFragment(), RetrofitFragment.class.toString());
     }
 
+    @OnClick(R.id.btn_demo_double_binding_textview)
+    public void demoDoubleBinding() {
+        startFragment(new DoubleBindingTextViewFragment(), RetrofitFragment.class.toString());
+    }
+
+
     private void startFragment(final Fragment fragment, final String classString) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
