@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.widget.EditText;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
+import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

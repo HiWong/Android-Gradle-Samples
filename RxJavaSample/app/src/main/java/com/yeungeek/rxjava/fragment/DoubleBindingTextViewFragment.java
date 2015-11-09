@@ -6,10 +6,12 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.yeungeek.rxjava.R;
 
 import butterknife.Bind;
 import butterknife.OnTextChanged;
+import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
@@ -23,7 +25,7 @@ public class DoubleBindingTextViewFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         resultEmitterSubject = PublishSubject.create();
-        subscription = resultEmitterSubject.asObservable().subscribe(new Action1<Float>() {
+        subscription = getSubscription().subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 result.setText(String.valueOf(aFloat));
@@ -32,6 +34,11 @@ public class DoubleBindingTextViewFragment extends BaseFragment {
 
         onNumberChanged();
         num1Et.requestFocus();
+    }
+
+    @RxLogObservable
+    private Observable getSubscription(){
+        return resultEmitterSubject.asObservable();
     }
 
     @OnTextChanged({R.id.double_binding_num1, R.id.double_binding_num2})

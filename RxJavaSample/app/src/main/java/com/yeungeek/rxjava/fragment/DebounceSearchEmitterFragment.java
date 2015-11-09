@@ -3,6 +3,8 @@ package com.yeungeek.rxjava.fragment;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
+import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.yeungeek.rxjava.R;

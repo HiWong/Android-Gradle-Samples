@@ -6,6 +6,7 @@ import android.os.HandlerThread;
 import android.util.Log;
 import android.widget.Button;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.yeungeek.rxjava.R;
 
 import java.util.concurrent.TimeUnit;
@@ -76,6 +77,7 @@ public class DemoRxAndroidFragment extends BaseFragment {
                 });
     }
 
+    @RxLogObservable
     static Observable<String> sampleObservable() {
         return Observable.defer(new Func0<Observable<String>>() {
             @Override

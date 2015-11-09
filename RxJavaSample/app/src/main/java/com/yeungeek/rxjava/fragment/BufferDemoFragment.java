@@ -3,6 +3,7 @@ package com.yeungeek.rxjava.fragment;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.jakewharton.rxbinding.view.RxView;
 import com.yeungeek.rxjava.R;
 
@@ -45,6 +46,7 @@ public class BufferDemoFragment extends BaseFragment {
     /**********
      * main rx
      *********/
+    @RxLogObservable
     private Subscription getBufferedSubscription() {
         return RxView.clicks(mTapBtn).map(s -> {       //use lam
             Timber.d("--------- GOT A TAP");
