@@ -33,10 +33,10 @@ public class DebounceSearchEmitterFragment extends BaseFragment{
 
         Observable<TextViewTextChangeEvent> textChangeEventObservable = RxTextView.textChangeEvents(inputSearchText);
 
-        subscription = textChangeEventObservable.compose(bindToLifecycle())
-                .debounce(400, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getSearchObserver());
+//        subscription = textChangeEventObservable.compose(bindToLifecycle())
+//                .debounce(400, TimeUnit.MILLISECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(getSearchObserver());
     }
 
     @Override

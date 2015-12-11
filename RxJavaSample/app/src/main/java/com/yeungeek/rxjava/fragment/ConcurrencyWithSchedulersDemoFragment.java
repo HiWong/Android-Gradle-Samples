@@ -48,10 +48,10 @@ public class ConcurrencyWithSchedulersDemoFragment extends BaseFragment {
         log("Button Clicked");
 
 
-        subscription = getObservable().compose(bindToLifecycle())       // Observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver());
+//        subscription = getObservable().compose(bindToLifecycle())       // Observable
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(getObserver());
 
     }
 

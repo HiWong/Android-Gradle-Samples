@@ -1,5 +1,7 @@
 package com.yeungeek.rxjava.bus;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
+
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
@@ -26,6 +28,7 @@ public class RxBus {
         }
     }
 
+    @RxLogObservable
     public Observable<Object> toObservable() {
         return bus;
     }
