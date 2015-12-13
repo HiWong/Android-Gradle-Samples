@@ -24,6 +24,6 @@ public class PrintSubscriber extends Subscriber {
 
     @Override
     public void onNext(Object v) {
-        System.out.println(name + ": " + v);
+        System.out.println(name + ": " + v + " type: " + v.getClass());
     }
 }
